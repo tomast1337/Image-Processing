@@ -43,17 +43,16 @@ blackAndWhiteImage = np.array(blackAndWhiteImage)
 """
 # Show the images
 
-cv2.imshow('Original image',image)
-cv2.waitKey(0)
+#cv2.imshow('Original image',image)
+#cv2.waitKey(0)
 
-cv2.imshow('Gray image', gray)
-cv2.waitKey(0)
+#cv2.imshow('Gray image', gray)
+#cv2.waitKey(0)
 
 # create a histogram of the image and the gray image
 
-
+domain = np.arange(0,256)
 histGrey = [0]*256
-
 histR = [0]*256
 histG = [0]*256
 histB = [0]*256
@@ -75,7 +74,40 @@ histB = np.array(histB)
 plt.figure()
 plt.title('Grayscale Histogram')
 plt.xlabel('Bins')
-plt.ylabel('# of pixels')
-plt.plot(histGrey)
+plt.ylabel('number of pixels')
+plt.bar(domain,histGrey,color="grey")
+plt.show()
+
+plt.figure()
+plt.title('Red Channel Histogram')
+plt.xlabel('Bins')
+plt.ylabel('number of pixels')
+plt.bar(domain,histR,color="red")
+plt.show()
+
+plt.figure()
+plt.title('Green Channel Histogram')
+plt.xlabel('Bins')
+plt.ylabel('number of pixels')
+plt.bar(domain,histG,color="green")
+plt.show()
+
+plt.figure()
+plt.title('Blue Channel Histogram')
+plt.xlabel('Bins')
+plt.ylabel('number of pixels')
+plt.bar(domain,histB,color="blue")
+plt.show()
 
 
+# plot a single histogram with all values
+
+plt.figure()
+plt.title('Histogram')
+plt.xlabel('Bins')
+plt.ylabel('number of pixels')
+plt.bar(domain,histGrey,color="grey")
+plt.bar(domain,histR,color="red")
+plt.bar(domain,histG,color="green")
+plt.bar(domain,histB,color="blue")
+plt.show()
