@@ -89,12 +89,12 @@ img_lower_cut = np.zeros(image.shape, np.uint8)
 for i in range(0,image.shape[0]):
     for j in range(0,image.shape[1]):
         # if pixel is more than 150
-        if image[i,j].sum() // 3 > 150:
+        if image[i,j].sum() // 3 > 255//2:
             img_upper_cut[i,j] = image[i,j]
-            #img_lower_cut[i,j] = 255
+            img_lower_cut[i,j] = 255
         else:
             img_lower_cut[i,j] = image[i,j]
-            #img_upper_cut[i,j] = 255
+            img_upper_cut[i,j] = 255
 
 
 img_upper_cut = np.array(img_upper_cut)
@@ -105,5 +105,3 @@ cv2.waitKey(0)
 
 cv2.imshow('Lower cut',img_lower_cut)
 cv2.waitKey(0)
-
-        
