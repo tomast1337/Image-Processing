@@ -28,7 +28,7 @@ hist = np.array(hist)
 # generate a new histogram from an arbritary function
 hist2 = np.zeros(256)
 for i in range(0,255):
-    hist2[i] = (i-128)**2
+    hist2[i] = -(i-128)**2
 
 # normalize the histogram
 hist2 = hist2 / (gray.shape[0] * gray.shape[1])
@@ -50,29 +50,22 @@ mapped_img = np.array(mapped_img)
 # generate a histogram of the mapped image
 hist3 = cv2.calcHist([mapped_img], [0], None, [256], [0, 256])
 
-# plot the histograms
-plt.figure()
-plt.title("Grayscale Histogram")
-plt.xlabel("Bins")
-plt.ylabel("# of Pixels")
-plt.plot(hist)
-plt.xlim([0, 256])
+fig, ax = plt.subplots()
+ax.plot(hist, label = 'Original')
+ax.plot(hist3, label = 'Mapped')
+ax.legend()
+ax.set(xlabel='Gray value', ylabel='Frequency',
+         title='Histogram')
+ax.grid()
 plt.show()
 
-plt.figure()
-plt.title("Arbritary Histogram")
-plt.xlabel("Bins")
-plt.ylabel("# of Pixels")
-plt.plot(hist2)
-plt.xlim([0, 256])
-plt.show()
-
-plt.figure()
-plt.title("Mapped Histogram")
-plt.xlabel("Bins")
-plt.ylabel("# of Pixels")
-plt.plot(hist3)
-plt.xlim([0, 256])
+# show the new histogram
+fig, ax = plt.subplots()
+ax.plot(hist2, label = 'New')
+ax.legend()
+ax.set(xlabel='Gray value', ylabel='Frequency',
+            title='Histogram')
+ax.grid()
 plt.show()
 
 # display all the images
