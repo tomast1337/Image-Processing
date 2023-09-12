@@ -14,7 +14,7 @@ image = cv2.imread('img1.webp')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 histgrey = cv2.calcHist([gray], [0], None, [256], [0, 256])
 norm_hist = histgrey / (gray.shape[0] * gray.shape[1])
-cumulative_distribution_function = norm_hist.cumsum()
+hist_especific_cumm = norm_hist.cumsum()
 
 #equalize the img
 eq_gray = cv2.equalizeHist(gray)
@@ -35,45 +35,57 @@ eq_hist = np.array(eq_hist)
 """
 
 # generate a new histogram from an arbritary function
-hist2 = np.zeros(256)
-for i in range(0,255):
-    hist2[i] = (i-128)**2
+hist_especific = np.zeros(256)
+for i in range(0, 255):
+    hist_especific[i] = np.cos(i/64) * 128 + 128
 
 # normalize the histogram
-hist2 = hist2 / (gray.shape[0] * gray.shape[1])
-mapped_img = np.zeros((image.shape[0],image.shape[1]),dtype = np.uint8)
-cumulative_distribution_function = hist2.cumsum()
-cumulative_distribution_function = cumulative_distribution_function * 255 / cumulative_distribution_function[-1]
-cumulative_distribution_function = cumulative_distribution_function.astype(np.uint8)
-
+hist_especific = hist_especific / (gray.shape[0] * gray.shape[1])
+mapped_img = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
+hist_especific_cumm = hist_especific.cumsum()
 
 #map the gray values to the new histogram
-for i in range(0,gray.shape[0]):
-    for j in range(0,gray.shape[1]):
-        mapped_img[i,j] = cumulative_distribution_function[eq_gray[i,j]]
+for i in range(0, gray.shape[0]):
+    for j in range(0, gray.shape[1]):
+        index = eq_gray[i, j]
+        mapped_img[i, j] = 256 * hist_especific_cumm[index]
 
 mapped_img = np.array(mapped_img)
 
 # generate a histogram of the mapped image
-hist3 = cv2.calcHist([mapped_img], [0], None, [256], [0, 256])
-
+hist_final_img = cv2.calcHist([mapped_img], [0], None, [256], [0, 256])
+# plot all the histograms
+# cutoff any ferequenc above the mean
 fig, ax = plt.subplots()
-ax.plot(histgrey*image.shape[0]*image.shape[1], label = 'Original',alpha=0.2)
-ax.plot(eq_hist*image.shape[0]*image.shape[1], label="Equalized",alpha=0.2)
-ax.plot(hist3, label = 'Mapped',alpha=0.2)
+ax.plot(histgrey, label='Original', alpha=1)
 ax.legend()
 ax.set(xlabel='Gray value', ylabel='Frequency',
-         title='Histogram')
+       title='Original')
+ax.grid()
+plt.show()
+
+fig, ax = plt.subplots()
+ax.plot(eq_hist, label='Equalized', alpha=1)
+ax.set(xlabel='Gray value', ylabel='Frequency',
+       title='Equalized')
+ax.grid()
+plt.show()
+
+fig, ax = plt.subplots()
+ax.plot(hist_final_img, label='Mapped', alpha=1)
+ax.set(xlabel='Gray value', ylabel='Frequency',
+       title='Mapped')
 ax.grid()
 plt.show()
 
 # show the new histogram
 fig, ax = plt.subplots()
-ax.plot(hist2*255/np.max(hist2), label = 'Normalized')
-ax.plot(hist2.cumsum(), label = 'Cumulaive')
+ax.plot(hist_especific, label='Normalized', alpha=1)
+ax.plot(hist_especific_cumm 
+        , label='Cumulaive', alpha=1)
 ax.legend()
 ax.set(xlabel='Gray value', ylabel='Frequency',
-            title='Histogram')
+       title='Histogram')
 ax.grid()
 plt.show()
 
@@ -82,5 +94,6 @@ plt.show()
 
 cv2.imshow("Original", image)
 cv2.imshow("Grayscale", gray)
+cv2.imshow("Equalizided", eq_gray)
 cv2.imshow("Mapped", mapped_img)
 cv2.waitKey(0)
