@@ -13,6 +13,7 @@ opencv-python = "^4.8.0.76"
 ipykernel = "^6.25.2"
 rich = "^13.5.3"
 matplotlib = "^3.8.0"
+imageio = "^2.31.3"
 
 
 [build-system]
