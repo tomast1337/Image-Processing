@@ -16,6 +16,9 @@ matplotlib = "^3.8.0"
 imageio = "^2.31.3"
 
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
