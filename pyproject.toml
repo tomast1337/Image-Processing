@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "processamento_de_imagem"}]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.10,<3.13"
 numpy = "^1.26.0"
 opencv-python = "^4.8.0.76"
 ipykernel = "^6.25.2"
