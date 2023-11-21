@@ -3,8 +3,11 @@
         "centerx",
         "centery",
         "cmap",
+        "dtype",
         "figsize",
+        "imread",
         "imshow",
-        "ndarray"
+        "ndarray",
+        "Trollface"
     ]
 }
